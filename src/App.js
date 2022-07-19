@@ -1,25 +1,87 @@
 import logo from './logo.svg';
 import './App.css';
+import { Routes, Route, Link, Navigate, Outlet } from 'react-router-dom';
 
-function App() {
+const ProtectedRoute = ({
+  user,
+  redirectPath = '/landing',
+  children,
+}) => {
+  if (!user) {
+    return <Navigate to={redirectPath} replace />;
+  }
+  return children ? children : <Outlet />;
+};
+
+const App = () => {
+  const [user, setUser] = React.useState(null)
+  const handleLogin = () => setUser({ id: '1', name: 'robin' })
+  const handleLogout = () => setUser(null)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>React Router</h1>
+
+      <Navigation />
+
+      {user ? (
+        <button onClick={handleLogout}>Sign Out</button>
+      ) : (
+        <button onClick={handleLogin}>Sign In</button>
+      )}
+
+      <Routes>
+        <Route index element={<Landing />} />
+        <Route path="landing" element={<Landing />} />
+        <Route element={<ProtectedRoute user={user} />}>
+          <Route path="home" element={<Home />} />
+          <Route path="dashboard" element={<Dashboard />} />
+        </Route>
+        <Route path="analytics" element={<Analytics />} />
+        <Route path="admin" element={<Admin />} />
+        <Route path="*" element={<p>There's nothing here: 404!</p>} />
+      </Routes>
+    </>
   );
-}
+};
+
+const Navigation = () => (
+  <nav>
+    <Link to="/landing">Landing</Link>
+    <Link to="/home">Home</Link>
+    <Link to="/dashboard">Dashboard</Link>
+    <Link to="/analytics">Analytics</Link>
+    <Link to="/admin">Admin</Link>
+  </nav>
+);
+
+const Landing = () => {
+  return <h2>Landing (Public: anyone can access this page)</h2>;
+};
+
+const Home = () => {
+  return <h2>Home (Protected: authenticated user required)</h2>;
+};
+
+const Dashboard = () => {
+  return <h2>Dashboard (Protected: authenticated user required)</h2>;
+};
+
+const Analytics = () => {
+  return (
+    <h2>
+      Analytics (Protected: authenticated user with permission
+      'analyze' required)
+    </h2>
+  );
+};
+
+const Admin = () => {
+  return (
+    <h2>
+      Admin (Protected: authenticated user with role 'admin' required)
+    </h2>
+  );
+};
 
 export default App;
