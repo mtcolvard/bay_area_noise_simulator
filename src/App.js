@@ -5,18 +5,32 @@ import { Routes, Route, Link, Navigate, Outlet } from 'react-router-dom';
 
 const ProtectedRoute = ({
   user,
+  auth,
   redirectPath = '/landing',
+  loginPath = '/home',
   children,
 }) => {
-  if (!user) {
+  if (user['password'] != auth['password']) {
     return <Navigate to={redirectPath} replace />;
   }
+  // else {
+  //   return <Navigate to={loginPath} replace/>
+  // }
   return children ? children : <Outlet />;
 };
 
 const App = () => {
-  const [user, setUser] = useState(null)
-  const handleLogin = () => setUser({ id: '1', name: 'robin' })
+
+  const [auth, setAuth] = useState({ username: 'Lee Brenner', password: 'Lee' })
+  const [user, setUser] = useState({username: null, password: null})
+  console.log(auth, 'auth')
+  console.log(user, 'user')
+  console.log(Boolean(user['username'] == auth['username']), 'boolean')
+
+  const submitUser = (data) => {
+    setUser(data)
+  }
+  const handleLogin = () => setUser({ username: 'Lee Brenner', password: 'lee' })
   const handleLogout = () => setUser(null)
 
   return (
@@ -25,7 +39,7 @@ const App = () => {
 
       <Navigation />
 
-      {user ? (
+      {user == auth ? (
         <button onClick={handleLogout}>Sign Out</button>
       ) : (
         <button onClick={handleLogin}>Sign In</button>
@@ -33,10 +47,12 @@ const App = () => {
 
       <Routes>
         <Route index element={<Landing />} />
-        <Route path="landing" element={<Landing />} />
-        <Route element={<ProtectedRoute user={user} />}>
-          <Route path="home" element={<Home />} />
-          <Route path="dashboard" element={<Dashboard />} />
+        <Route path="landing" element={<Landing submitUser={submitUser}/>} />
+        <Route element={
+          <ProtectedRoute
+            user={user}
+            auth={auth} />}>
+            <Route path="home" element={<Home />} />
         </Route>
         <Route path="*" element={<p>There's nothing here: 404!</p>} />
       </Routes>
@@ -48,22 +64,19 @@ const Navigation = () => (
   <nav>
     <Link to="/landing">Landing</Link>
     <Link to="/home">Home</Link>
-    <Link to="/dashboard">Dashboard</Link>
-
   </nav>
 );
 
 
 
-const Landing = (props) => {
-
+const Landing = ({submitUser}) => {
   const [formData, setFormData] = useState(null)
   const handleChange = (e) => {
     setFormData({...formData, [e.target.name]: e.target.value })
   }
   const handleSubmit = (e) => {
     e.preventDefault()
-    formData == user ? this.props.history.push('/home') : this.props.history.push('/landing')
+    submitUser(formData)
   }
 
   return(
@@ -92,9 +105,8 @@ const Landing = (props) => {
                   onChange={handleChange}
                 />
               </div>
-              {this.state.error && <small className="help is-danger">{this.state.error}</small>}
-            <div class="control">
-              <button class="button is-link">Submit</button>
+            <div className="control">
+              <button className="button is-link">Submit</button>
             </div>
           </div>
         </form>
@@ -107,10 +119,5 @@ const Landing = (props) => {
 const Home = () => {
   return <h2>Home (Protected: authenticated user required)</h2>;
 };
-
-const Dashboard = () => {
-  return <h2>Dashboard (Protected: authenticated user required)</h2>;
-};
-
 
 export default App;
