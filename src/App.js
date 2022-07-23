@@ -105,7 +105,7 @@ const Home = () => {
     dragonDancing: [60000, 120000]
   }
 
-  const options = [{value: 'peopleTalking', label: 'People Talking'}, {value: 'dragonDancing', label: 'Dragon Dancing'}]
+  const soundOptions = [{value: 'peopleTalking', label: 'People Talking'}, {value: 'dragonDancing', label: 'Dragon Dancing'}]
   const defaultOption = selectedSound
 
 
@@ -122,7 +122,7 @@ const Home = () => {
               <div className="column">
                 <div className="select">
                   <Dropdown
-                    options={options}
+                    options={soundOptions}
                     onChange={handleDropdownSelection}
                     value={defaultOption}
                     placeholder="Select an option"
