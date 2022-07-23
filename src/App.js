@@ -1,6 +1,13 @@
+import useSound from 'use-sound'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
+
 import logo from './logo.svg';
-import './App.css';
-import React, {useState} from 'react';
+import peopleTalking from './Assets/people_talking.mp3'
+import './App.scss';
+import React, {useState, useEffect} from 'react';
+import Landing from './Components/Landing.js'
+import Interface from './Components/Interface.js'
 import { Routes, Route, Link, Navigate, Outlet, useNavigate, } from 'react-router-dom';
 
 const ProtectedRoute = ({
@@ -18,6 +25,7 @@ const ProtectedRoute = ({
   return <Outlet />
 }
 
+
 const App = () => {
 
   const [auth, setAuth] = useState({ username: 'Lee Brenner', password: 'Lee' })
@@ -31,11 +39,10 @@ const App = () => {
   const handleLogout = () => setUser(null)
   console.log(auth, 'auth')
   console.log(user, 'user')
-  console.log(Boolean(user['username'] == auth['username']), 'boolean')
+  console.log(Boolean(user['password'] == auth['password']), 'boolean')
 
   return (
     <>
-      <h1>Lee Brenner's Noise Abatement Simulator</h1>
       <Routes>
         <Route index element={<Landing />} />
         <Route
@@ -58,49 +65,63 @@ const Navigation = () => (
   </nav>
 );
 
-
-
-const Landing = ({submitUser}) => {
-  const [formData, setFormData] = useState(null)
-  const handleChange = (e) => {
-    setFormData({...formData, [e.target.name]: e.target.value })
+const Home = () => {
+  const [percentGain, setPercentGain] = useState(1)
+  const [decibleReduction, setDecibleReduction] = useState(0)
+  const handleDecibleReduction = (e) => {
+    setDecibleReduction(e.target.value)
+    setPercentGain((Math.pow(10, (e.target.value / 20))).toFixed(2))
   }
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    submitUser(formData)
-  }
+  const handlePlay = () => {
+    play()
+    console.log('clicked')}
+  const handleStop = () => { stop() }
+  const [play, { stop, sound }] = useSound(peopleTalking, {loop: true, volume: percentGain,})
 
   return(
     <div>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <div className="field">
-            <label className="label">Welcome Lee. Please enter your password:</label>
-              <div className="control">
-                <input
-                  className="input"
-                  type="text"
-                  name="password"
-                  placeholder="eg: ••••••••"
-                  onChange={handleChange}
-                />
+    <section className="section">
+      <div className="container">
+        <div className="columns">
+          <div className="column">
+            <h1 className="title is-size-1">Lee Brenner's Noise Abatement Simulator</h1>
+            <h2 className="is-size-3">Select noise source:</h2>
+            <div className="columns">
+              <div className="column">
               </div>
-            <div className="control">
-              <button className="button is-link">Submit</button>
+              <div className="column">
+                <div style={{ fontSize: 50 }}>
+                  <div className="level">
+                    <div className="level-left">
+                      <div className="level-item">
+                        <div  className='playbutton' onClick={handlePlay}><FontAwesomeIcon icon={faPlay}/>
+                        </div>
+                      </div>
+                      <div className="level-item">
+                        <div  className='stopButton' onClick={handleStop}><FontAwesomeIcon icon={faStop}/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2 className="is-size-3">Enter dB reduction:</h2>
+            <div>
+              <label>Transmission Loss (dB):<span> </span>
+                <input
+                  className="control-dbl"
+                  id="dbl"
+                  type="number"
+                  max="12"
+                  value={decibleReduction}
+                  onChange={handleDecibleReduction} />
+              </label>
             </div>
           </div>
-        </form>
+        </div>
       </div>
-    </div>
-
-)
-};
-
-const Home = () => {
-  return(
-    <div>
-      <h2>Select noise source:</h2>
-      <h2>Select dB reduction:</h2>
+    </section>
     </div>
 
   )
