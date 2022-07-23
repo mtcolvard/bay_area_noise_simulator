@@ -1,9 +1,13 @@
 import useSound from 'use-sound'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
 import logo from './logo.svg';
 import peopleTalking from './Assets/people_talking.mp3'
+import dragonDancing from './Assets/dragon_dancing.mp3'
+import noiseSprite from './Assets/noiseSprite1.mp3'
 import './App.scss';
 import React, {useState, useEffect} from 'react';
 import Landing from './Components/Landing.js'
@@ -72,11 +76,39 @@ const Home = () => {
     setDecibleReduction(e.target.value)
     setPercentGain((Math.pow(10, (e.target.value / 20))).toFixed(2))
   }
-  const handlePlay = () => {
-    play()
-    console.log('clicked')}
+  // const [play, { stop, sound }] = useSound(peopleTalking, {loop: true, volume: percentGain,})
+  const [play, { stop, sound }] = useSound(noiseSprite, {
+    loop: true,
+    volume: percentGain,
+    sprite: {
+      peopleTalking: [0, 60000],
+      dragonDancing: [60000, 120000]
+    }
+  })
+  const handlePlay = () => { play({id: selectedSound.value}) }
   const handleStop = () => { stop() }
-  const [play, { stop, sound }] = useSound(peopleTalking, {loop: true, volume: percentGain,})
+
+  const [selectedSound, setSelectedSound] = useState({value: 'peopleTalking', label: 'People Talking'})
+  const handleDropdownSelection = (option) => {
+    console.log('you selectedSound', option.value)
+    setSelectedSound(option)
+  }
+
+
+
+  // const handleDropdownSelect = () => {
+  //   console.log(value)
+  // }
+
+  const spriteMap = {
+    peopleTalking: [0, 60000],
+    dragonDancing: [60000, 120000]
+  }
+
+  const options = [{value: 'peopleTalking', label: 'People Talking'}, {value: 'dragonDancing', label: 'Dragon Dancing'}]
+  const defaultOption = selectedSound
+
+
 
   return(
     <div>
@@ -88,6 +120,14 @@ const Home = () => {
             <h2 className="is-size-3">Select noise source:</h2>
             <div className="columns">
               <div className="column">
+                <div className="select">
+                  <Dropdown
+                    options={options}
+                    onChange={handleDropdownSelection}
+                    value={defaultOption}
+                    placeholder="Select an option"
+                  />
+                </div>
               </div>
               <div className="column">
                 <div style={{ fontSize: 50 }}>
@@ -126,5 +166,11 @@ const Home = () => {
 
   )
 }
+
+// <select id="noiseSource" addeventlistener={handleDropdownSelect}>
+//   <option value="">-Please select a noise source-</option>
+//   <option value="peopleTalking"> Crowded Restaurant </option>
+//   <option value="dragonDancing"> Dragon Dancing </option>
+// </select>
 
 export default App;
