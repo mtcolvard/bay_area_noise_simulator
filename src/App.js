@@ -32,14 +32,14 @@ const ProtectedRoute = ({
 
 const App = () => {
 
-  const [auth, setAuth] = useState({ username: 'Lee Brenner', password: 'Lee' })
-  const [user, setUser] = useState({username: null, password: null})
+  const [auth, setAuth] = useState({ username: 'Lee Brenner', password: 'Lara' })
+  const [user, setUser] = useState({ username: null, password: null })
   const navigate = useNavigate()
   const submitUser = (data) => {
     setUser(data)
     navigate('/home')
   }
-  const handleLogin = () => setUser({ username: 'Lee Brenner', password: 'lee' })
+  const handleLogin = () => setUser({ username: 'Lee Brenner', password: 'Lara' })
   const handleLogout = () => setUser(null)
   console.log(auth, 'auth')
   console.log(user, 'user')
@@ -48,7 +48,9 @@ const App = () => {
   return (
     <>
       <Routes>
-        <Route index element={<Landing />} />
+        <Route
+          index
+          element={<Landing submitUser={submitUser}/>} />
         <Route
           path="landing"
           element={<Landing submitUser={submitUser}/>} />
@@ -72,6 +74,7 @@ const Navigation = () => (
 const Home = () => {
   const [percentGain, setPercentGain] = useState(1)
   const [decibleReduction, setDecibleReduction] = useState(0)
+
   const handleDecibleReduction = (e) => {
     setDecibleReduction(e.target.value)
     setPercentGain((Math.pow(10, (e.target.value / 20))).toFixed(2))
@@ -89,9 +92,11 @@ const Home = () => {
   const handleStop = () => { stop() }
 
   const [selectedSound, setSelectedSound] = useState({value: 'peopleTalking', label: 'People Talking'})
+
   const handleDropdownSelection = (option) => {
-    console.log('you selectedSound', option.value)
+    handleStop()
     setSelectedSound(option)
+    console.log('you selectedSound', option.value)
   }
 
 

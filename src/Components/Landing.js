@@ -1,11 +1,12 @@
 
 import React, {useState} from 'react';
 
-  const Landing = ({submitUser}) => {
+  const Landing = ({ submitUser }) => {
     const [formData, setFormData] = useState(null)
     const handleChange = (e) => {
       setFormData({...formData, [e.target.name]: e.target.value })
     }
+    console.log(formData)
     const handleSubmit = (e) => {
       e.preventDefault()
       submitUser(formData)
