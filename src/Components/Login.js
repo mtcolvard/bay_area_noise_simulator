@@ -1,7 +1,7 @@
 
 import React, {useState} from 'react';
 
-  const Landing = ({ submitUser }) => {
+  const Login = ({ submitUser }) => {
     const [formData, setFormData] = useState(null)
     const handleChange = (e) => {
       setFormData({...formData, [e.target.name]: e.target.value })
@@ -52,4 +52,4 @@ import React, {useState} from 'react';
 
   )
   };
-export default Landing
+export default Login

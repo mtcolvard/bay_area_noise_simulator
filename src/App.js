@@ -10,14 +10,14 @@ import dragonDancing from './Assets/dragon_dancing.mp3'
 import noiseSprite from './Assets/noiseSprite1.mp3'
 import './App.scss';
 import React, {useState, useEffect} from 'react';
-import Landing from './Components/Landing.js'
+import Login from './Components/Login.js'
 import Interface from './Components/Interface.js'
 import { Routes, Route, Link, Navigate, Outlet, useNavigate, } from 'react-router-dom';
 
 const ProtectedRoute = ({
   user,
   auth,
-  redirectPath = '/landing',
+  redirectPath = '/login',
   children,
 }) => {
   if (user['password'] != auth['password']) {
@@ -50,10 +50,10 @@ const App = () => {
       <Routes>
         <Route
           index
-          element={<Landing submitUser={submitUser}/>} />
+          element={<Login submitUser={submitUser}/>} />
         <Route
-          path="landing"
-          element={<Landing submitUser={submitUser}/>} />
+          path="login"
+          element={<Login submitUser={submitUser}/>} />
         <Route
           element={<ProtectedRoute user={user} auth={auth} />}>
           <Route path="home" element={<Home />} />
@@ -66,7 +66,7 @@ const App = () => {
 
 const Navigation = () => (
   <nav>
-    <Link to="/landing">Landing</Link>
+    <Link to="/login">Login</Link>
     <Link to="/home">Home</Link>
   </nav>
 );
