@@ -4,12 +4,10 @@ import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
-import logo from './logo.svg';
 import noiseSprite from './Assets/noiseSprite4.mp3'
 import './App.scss';
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import Login from './Components/Login.js'
-import Interface from './Components/Interface.js'
 import { Routes, Route, Link, Navigate, Outlet, useNavigate, } from 'react-router-dom';
 
 const ProtectedRoute = ({
@@ -18,7 +16,7 @@ const ProtectedRoute = ({
   redirectPath = '/login',
   children,
 }) => {
-  if (user['password'] != auth['password']) {
+  if (user['password'] !== auth['password']) {
     return <Navigate to={redirectPath} replace />;
   }
   return <Outlet />
@@ -175,11 +173,5 @@ const Home = () => {
 
   )
 }
-
-// <select id="noiseSource" addeventlistener={handleDropdownSelect}>
-//   <option value="">-Please select a noise source-</option>
-//   <option value="noisyRestaurant"> Crowded Restaurant </option>
-//   <option value="dragonDancing"> Dragon Dancing </option>
-// </select>
 
 export default App;
