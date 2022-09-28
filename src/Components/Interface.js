@@ -7,7 +7,7 @@ const Interface = () => {
   const [play, setPlay] = useState(false)
   return (
     <div style={{ fontSize: 50 }}>
-      <div className="level">
+      <div className="level is-mobile">
         <div className="level-left">
           <div className="level-item">
             <div  className='playbutton' onClick={() => setPlay(true)}><FontAwesomeIcon icon={faPlay}/>

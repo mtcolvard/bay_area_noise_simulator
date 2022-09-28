@@ -25,6 +25,18 @@ $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
 
+.Dropdown-arrow {
+  border-color: white;
+}
+.is-open {
+  border-color: white;
+}
+
+.control-dbl {
+  font-size: 1em;
+  padding: 8px 10px 8px 10px;
+}
+
 .learn {
   margin-bottom: 1em;
 }
@@ -64,6 +76,10 @@ $navbar-item-img-max-height: 56px;
 .App-link {
   color: #61dafb;
 }
+
+
+
+
 
 @keyframes App-logo-spin {
   from {

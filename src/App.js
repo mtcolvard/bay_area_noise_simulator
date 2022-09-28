@@ -32,14 +32,14 @@ const ProtectedRoute = ({
 
 const App = () => {
 
-  const [auth, setAuth] = useState({ username: 'Lee Brenner', password: 'Lara' })
+  const [auth, setAuth] = useState({ username: 'Lee Brenner', password: 'Lana' })
   const [user, setUser] = useState({ username: null, password: null })
   const navigate = useNavigate()
   const submitUser = (data) => {
     setUser(data)
     navigate('/home')
   }
-  const handleLogin = () => setUser({ username: 'Lee Brenner', password: 'Lara' })
+  const handleLogin = () => setUser({ username: 'Lee Brenner', password: 'Lana' })
   const handleLogout = () => setUser(null)
   console.log(auth, 'auth')
   console.log(user, 'user')
@@ -85,7 +85,8 @@ const Home = () => {
     volume: percentGain,
     sprite: {
       peopleTalking: [0, 60000],
-      dragonDancing: [60000, 120000]
+      dragonDancing: [60000, 120000],
+      clarinet: [120000, 180000]
     }
   })
   const handlePlay = () => { play({id: selectedSound.value}) }
@@ -106,11 +107,26 @@ const Home = () => {
   // }
 
   const spriteMap = {
-    peopleTalking: [0, 60000],
-    dragonDancing: [60000, 120000]
+    peopleTalking: [0, 30000],
+    dragonDancing: [30000, 60000],
+    fastMovingFreeway: [60000, 90000],
+    honkingTraffic: [90000, 120000],
+    loudBar: [120000, 130000],
+    peopleShouting: [130000, 140000],
+    poundingCeiling: [140000, 150000],
+    clarinet: [150000,1610000]
   }
 
-  const soundOptions = [{value: 'peopleTalking', label: 'People Talking'}, {value: 'dragonDancing', label: 'Dragon Dancing'}]
+  const soundOptions = [
+    {value: 'peopleTalking', label: 'Noisy Restaurant'},
+    {value: 'dragonDancing', label: 'Dragon Dancing Parade'},
+    {value: 'fastMovingFreeway', label: 'Ambient Freeway'},
+    {value: 'honkingTraffic', label: 'Honking Traffic'},
+    {value: 'loudBar', label: 'Loud Bar'},
+    {value: 'peopleShouting', label: 'Large Crowd, Shouting'},
+    {value: 'poundingCeiling', label: 'Pounding on Ceiling'},
+    {value: 'clarinet', label: 'Classical Musician Neighbor'},
+  ]
   const defaultOption = selectedSound
 
 
@@ -136,7 +152,7 @@ const Home = () => {
               </div>
               <div className="column">
                 <div style={{ fontSize: 50 }}>
-                  <div className="level">
+                  <div className="level is-mobile">
                     <div className="level-left">
                       <div className="level-item">
                         <div  className='playbutton' onClick={handlePlay}><FontAwesomeIcon icon={faPlay}/>
