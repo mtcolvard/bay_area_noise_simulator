@@ -25,7 +25,7 @@ const ProtectedRoute = ({
 
 const App = () => {
 
-  const [auth, setAuth] = useState({ username: 'Lee Brenner', password: 'Lana' })
+  const [auth, setAuth] = useState({ username: 'Lee Brenner', password: process.env.REACT_APP_PASS })
   const [user, setUser] = useState({ username: null, password: null })
   const navigate = useNavigate()
   const submitUser = (data) => {
