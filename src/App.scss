@@ -15,7 +15,9 @@ $family-secondary: 'Pacifico', cursive;
 $grey-dark: $brown;
 $grey-light: $beige-light;
 $primary: $purple;
-$link: $pink;
+$link: $purple;
+
+
 $widescreen-enabled: false;
 $fullhd-enabled: false;
 
@@ -25,16 +27,45 @@ $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
 
-.Dropdown-arrow {
+.dropdownArrow {
   border-color: white;
 }
-.is-open {
+.arrowClosed {
   border-color: white;
+}
+.arrowOpen {
+  border-color: white;
+}
+
+.Dropdown-root {
+  margin-top: 12px;
+}
+
+.playButton {
+  color: #4d8a61;
+}
+
+// .stopButton {
+//   color: hsla(349, 46%, 42.2%, 1);
+// }
+
+.dropdown-options {
+  max-height: 400px;
+}
+
+.Dropdown-control {
+  width: 300px;
+}
+
+.Dropdown-option {
+  width: 300px;
 }
 
 .control-dbl {
   font-size: 1em;
   padding: 8px 10px 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
 }
 
 .learn {
@@ -55,6 +86,10 @@ $navbar-item-img-max-height: 56px;
   height: 40vmin;
   pointer-events: none;
 }
+//
+// @include mobile {
+//
+// }
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
@@ -76,9 +111,6 @@ $navbar-item-img-max-height: 56px;
 .App-link {
   color: #61dafb;
 }
-
-
-
 
 
 @keyframes App-logo-spin {

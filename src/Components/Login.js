@@ -17,9 +17,9 @@ import React, {useState} from 'react';
           <div className="container">
             <div className="columns">
               <div className="column">
-                <h1 className="title is-size-1">Lee Brenner's Noise Abatement Simulator</h1>
-                <h3 className="is-size-3">The use of this site is restricted to authorized users.</h3>
-                <h3 className="is-size-3">Please enter valid credentials to continue.</h3>
+                <h1 className="title is-size-1 is-size-2-mobile">Lee Brenner's Noise Abatement Simulator</h1>
+                <h3 className="is-size-3 is-size-4-mobile">The use of this site is restricted to authorized users.</h3>
+                <h3 className="is-size-3 is-size-4-mobile">Please enter valid credentials to continue.</h3>
                 <div className="block"></div>
                 <div className="columns">
                   <div className="column is-one-third">

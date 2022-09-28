@@ -5,9 +5,7 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 
 import logo from './logo.svg';
-import peopleTalking from './Assets/people_talking.mp3'
-import dragonDancing from './Assets/dragon_dancing.mp3'
-import noiseSprite from './Assets/noiseSprite1.mp3'
+import noiseSprite from './Assets/noiseSprite4.mp3'
 import './App.scss';
 import React, {useState, useEffect} from 'react';
 import Login from './Components/Login.js'
@@ -23,9 +21,6 @@ const ProtectedRoute = ({
   if (user['password'] != auth['password']) {
     return <Navigate to={redirectPath} replace />;
   }
-  // else {
-  //   return <Navigate to={loginPath} replace/>
-  // }
   return <Outlet />
 }
 
@@ -39,11 +34,6 @@ const App = () => {
     setUser(data)
     navigate('/home')
   }
-  const handleLogin = () => setUser({ username: 'Lee Brenner', password: 'Lana' })
-  const handleLogout = () => setUser(null)
-  console.log(auth, 'auth')
-  console.log(user, 'user')
-  console.log(Boolean(user['password'] == auth['password']), 'boolean')
 
   return (
     <>
@@ -79,20 +69,25 @@ const Home = () => {
     setDecibleReduction(e.target.value)
     setPercentGain((Math.pow(10, (e.target.value / 20))).toFixed(2))
   }
-  // const [play, { stop, sound }] = useSound(peopleTalking, {loop: true, volume: percentGain,})
+
   const [play, { stop, sound }] = useSound(noiseSprite, {
     loop: true,
     volume: percentGain,
     sprite: {
-      peopleTalking: [0, 60000],
-      dragonDancing: [60000, 120000],
-      clarinet: [120000, 180000]
+      noisyRestaurant: [0, 30000],
+      dragonDancing: [30000, 60000],
+      fastMovingFreeway: [60000, 90000],
+      honkingTraffic: [90000, 120000],
+      loudBar: [120000, 130000],
+      peopleShouting: [130000, 140000],
+      poundingCeiling: [140000, 150000],
+      clarinet: [150000,1610000]
     }
   })
   const handlePlay = () => { play({id: selectedSound.value}) }
   const handleStop = () => { stop() }
 
-  const [selectedSound, setSelectedSound] = useState({value: 'peopleTalking', label: 'People Talking'})
+  const [selectedSound, setSelectedSound] = useState({value: 'noisyRestaurant', label: 'Noisy Restaurant'})
 
   const handleDropdownSelection = (option) => {
     handleStop()
@@ -100,25 +95,8 @@ const Home = () => {
     console.log('you selectedSound', option.value)
   }
 
-
-
-  // const handleDropdownSelect = () => {
-  //   console.log(value)
-  // }
-
-  const spriteMap = {
-    peopleTalking: [0, 30000],
-    dragonDancing: [30000, 60000],
-    fastMovingFreeway: [60000, 90000],
-    honkingTraffic: [90000, 120000],
-    loudBar: [120000, 130000],
-    peopleShouting: [130000, 140000],
-    poundingCeiling: [140000, 150000],
-    clarinet: [150000,1610000]
-  }
-
   const soundOptions = [
-    {value: 'peopleTalking', label: 'Noisy Restaurant'},
+    {value: 'noisyRestaurant', label: 'Noisy Restaurant'},
     {value: 'dragonDancing', label: 'Dragon Dancing Parade'},
     {value: 'fastMovingFreeway', label: 'Ambient Freeway'},
     {value: 'honkingTraffic', label: 'Honking Traffic'},
@@ -129,7 +107,12 @@ const Home = () => {
   ]
   const defaultOption = selectedSound
 
-
+  const arrowClosed = (
+    <span className="arrow-closed" />
+  )
+  const arrowOpen = (
+    <span className="arrow-open" />
+  )
 
   return(
     <div>
@@ -137,12 +120,17 @@ const Home = () => {
       <div className="container">
         <div className="columns">
           <div className="column">
-            <h1 className="title is-size-1">Lee Brenner's Noise Abatement Simulator</h1>
+            <h1 className="title is-size-1-tablet is-size-3-mobile">Lee Brenner's Noise Abatement Simulator</h1>
             <h2 className="is-size-3">Select noise source:</h2>
             <div className="columns">
               <div className="column">
                 <div className="select">
                   <Dropdown
+                    arrowClassName="dropdownArrow"
+                    Dropdown-Menu="Dropdown-Menu"
+                    menuClassName="dropdown-options"
+                    arrowClosed={arrowClosed}
+                    arrowOpen={arrowOpen}
                     options={soundOptions}
                     onChange={handleDropdownSelection}
                     value={defaultOption}
@@ -155,7 +143,7 @@ const Home = () => {
                   <div className="level is-mobile">
                     <div className="level-left">
                       <div className="level-item">
-                        <div  className='playbutton' onClick={handlePlay}><FontAwesomeIcon icon={faPlay}/>
+                        <div  className='playButton' onClick={handlePlay}><FontAwesomeIcon icon={faPlay}/>
                         </div>
                       </div>
                       <div className="level-item">
@@ -190,7 +178,7 @@ const Home = () => {
 
 // <select id="noiseSource" addeventlistener={handleDropdownSelect}>
 //   <option value="">-Please select a noise source-</option>
-//   <option value="peopleTalking"> Crowded Restaurant </option>
+//   <option value="noisyRestaurant"> Crowded Restaurant </option>
 //   <option value="dragonDancing"> Dragon Dancing </option>
 // </select>
 
