@@ -108,9 +108,9 @@ const Home = () => {
     console.log('you selectedSound', option.value)
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-  }
+  // const handleSubmit = (e) => {
+  //   e.preventDefault()
+  // }
 
   const handleDecibleReduction = (e) => {
     const targetValue = e.target.value ?? 0
@@ -164,17 +164,15 @@ const Home = () => {
             </div>
             <h2 className="is-size-3">Enter dB reduction:</h2>
             <div>
-              <form onSubmit={handleSubmit} >
-                <label>Transmission Loss (dB):<span> </span>
-                  <input
-                    className="control-dbl"
-                    id="dbl"
-                    type="number"
-                    max="6"
-                    value={decibleReduction}
-                    onChange={handleDecibleReduction} />
-                </label>
-              </form>
+              <label>Transmission Loss (dB):<span> </span>
+                <input
+                  className="control-dbl"
+                  id="dbl"
+                  type="number"
+                  max="6"
+                  value={decibleReduction}
+                  onChange={handleDecibleReduction} />
+              </label>
             </div>
           </div>
         </div>
