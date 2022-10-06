@@ -1,14 +1,14 @@
-import useSound from 'use-sound'
+import React, { useState } from 'react';
+import { Routes, Route, Link, Navigate, Outlet, useNavigate, } from 'react-router-dom';
+import useSound  from 'use-sound'
+import noiseSprite from './Assets/noiseSprite4.mp3'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons'
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-
-import noiseSprite from './Assets/noiseSprite4.mp3'
 import './App.scss';
-import React, {useState} from 'react';
+
 import Login from './Components/Login.js'
-import { Routes, Route, Link, Navigate, Outlet, useNavigate, } from 'react-router-dom';
 
 const ProtectedRoute = ({
   user,
@@ -60,13 +60,22 @@ const Navigation = () => (
 );
 
 const Home = () => {
-  const [percentGain, setPercentGain] = useState(1)
   const [decibleReduction, setDecibleReduction] = useState(0)
+  const [percentGain, setPercentGain] = useState(1)
+  const [selectedSound, setSelectedSound] = useState({ value: 'noisyRestaurant', label: 'Noisy Restaurant' })
 
-  const handleDecibleReduction = (e) => {
-    setDecibleReduction(e.target.value)
-    setPercentGain((Math.pow(10, (e.target.value / 20))).toFixed(2))
-  }
+  const soundOptions = [
+    {value: 'noisyRestaurant', label: 'Noisy Restaurant'},
+    {value: 'dragonDancing', label: 'Dragon Dancing Parade'},
+    {value: 'fastMovingFreeway', label: 'Ambient Freeway'},
+    {value: 'honkingTraffic', label: 'Honking Traffic'},
+    {value: 'loudBar', label: 'Loud Bar'},
+    {value: 'peopleShouting', label: 'Large Crowd, Shouting'},
+    {value: 'poundingCeiling', label: 'Pounding on Ceiling'},
+    {value: 'clarinet', label: 'Classical Musician Neighbor'},
+  ]
+  const defaultOption = selectedSound
+
 
   const [play, { stop, sound }] = useSound(noiseSprite, {
     loop: true,
@@ -82,35 +91,34 @@ const Home = () => {
       clarinet: [150000,1610000]
     }
   })
-  const handlePlay = () => { play({id: selectedSound.value}) }
-  const handleStop = () => { stop() }
 
-  const [selectedSound, setSelectedSound] = useState({value: 'noisyRestaurant', label: 'Noisy Restaurant'})
+  const handleStop = () => {
+    stop()
+  }
+
+  const handlePlay = () => {
+    stop()
+    play({ id: selectedSound.value })
+  }
 
   const handleDropdownSelection = (option) => {
-    handleStop()
+    stop()
     setSelectedSound(option)
+    play({ id: option.value })
     console.log('you selectedSound', option.value)
   }
 
-  const soundOptions = [
-    {value: 'noisyRestaurant', label: 'Noisy Restaurant'},
-    {value: 'dragonDancing', label: 'Dragon Dancing Parade'},
-    {value: 'fastMovingFreeway', label: 'Ambient Freeway'},
-    {value: 'honkingTraffic', label: 'Honking Traffic'},
-    {value: 'loudBar', label: 'Loud Bar'},
-    {value: 'peopleShouting', label: 'Large Crowd, Shouting'},
-    {value: 'poundingCeiling', label: 'Pounding on Ceiling'},
-    {value: 'clarinet', label: 'Classical Musician Neighbor'},
-  ]
-  const defaultOption = selectedSound
+  const handleSubmit = (e) => {
+    e.preventDefault()
+  }
 
-  const arrowClosed = (
-    <span className="arrow-closed" />
-  )
-  const arrowOpen = (
-    <span className="arrow-open" />
-  )
+  const handleDecibleReduction = (e) => {
+    setDecibleReduction(e.target.value)
+    setPercentGain((Math.pow(10, (e.target.value / 20))).toFixed(2))
+  }
+
+  const arrowClosed = ( <span className="arrow-closed" /> )
+  const arrowOpen = ( <span className="arrow-open" /> )
 
   return(
     <div>
@@ -155,15 +163,17 @@ const Home = () => {
             </div>
             <h2 className="is-size-3">Enter dB reduction:</h2>
             <div>
-              <label>Transmission Loss (dB):<span> </span>
-                <input
-                  className="control-dbl"
-                  id="dbl"
-                  type="number"
-                  max="12"
-                  value={decibleReduction}
-                  onChange={handleDecibleReduction} />
-              </label>
+              <form onSubmit={handleSubmit} >
+                <label>Transmission Loss (dB):<span> </span>
+                  <input
+                    className="control-dbl"
+                    id="dbl"
+                    type="number"
+                    max="6"
+                    value={decibleReduction}
+                    onChange={handleDecibleReduction} />
+                </label>
+              </form>
             </div>
           </div>
         </div>
