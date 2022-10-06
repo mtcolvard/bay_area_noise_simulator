@@ -113,8 +113,9 @@ const Home = () => {
   }
 
   const handleDecibleReduction = (e) => {
-    setDecibleReduction(e.target.value)
-    setPercentGain((Math.pow(10, (e.target.value / 20))).toFixed(2))
+    const targetValue = e.target.value ?? 0
+    setDecibleReduction(targetValue)
+    setPercentGain((Math.pow(10, (targetValue / 20))).toFixed(2))
   }
 
   const arrowClosed = ( <span className="arrow-closed" /> )
