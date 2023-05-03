@@ -113,7 +113,7 @@ const Home = () => {
   // }
 
   const handleDecibleReduction = (e) => {
-    const targetValue = e.target.value ?? 0
+    const targetValue = (-1 * e.target.value) ?? 0
     setDecibleReduction(targetValue)
     setPercentGain((Math.pow(10, (targetValue / 20))).toFixed(2))
   }
@@ -164,7 +164,7 @@ const Home = () => {
             </div>
             <h2 className="is-size-3">Enter dB reduction:</h2>
             <div>
-              <label>Transmission Loss (dB):<span> </span>
+              <label>Transmission Loss (Enter -dB amount):<span> </span>
                 <input
                   className="control-dbl"
                   id="dbl"
